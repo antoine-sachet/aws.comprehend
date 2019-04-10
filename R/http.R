@@ -36,7 +36,11 @@ function(
     secret <- credentials[["secret"]]
     session_token <- credentials[["session_token"]]
     region <- credentials[["region"]]
-    
+
+    if ((is.null(key) || is.null(secret)) && is.null(session_token)) {
+      stop("Unable to locate AWS credentials.")
+    }
+
     # generate request signature
     d_timestamp <- format(Sys.time(), "%Y%m%dT%H%M%SZ", tz = "UTC")
     url <- paste0("https://comprehend.",region,".amazonaws.com")
